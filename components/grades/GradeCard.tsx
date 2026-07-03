@@ -1,8 +1,11 @@
+import Link from "next/link";
+
 type GradeCardProps = {
   grade: string;
   title: string;
   chapters: number;
   description: string;
+  link: string;
 };
 
 export default function GradeCard({
@@ -10,7 +13,15 @@ export default function GradeCard({
   title,
   chapters,
   description,
+  link,
 }: GradeCardProps) {
+    console.log({
+  grade,
+  title,
+  chapters,
+  description,
+  link,
+});
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
       <span className="inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
@@ -29,9 +40,12 @@ export default function GradeCard({
         📚 {chapters} Chapters
       </p>
 
-      <button className="mt-8 rounded-xl bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700">
+      <Link
+        href={link}
+        className="mt-8 inline-block rounded-xl bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
+      >
         Start Learning →
-      </button>
+      </Link>
     </div>
   );
 }
