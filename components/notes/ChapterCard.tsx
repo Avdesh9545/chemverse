@@ -1,7 +1,7 @@
 type ChapterCardProps = {
   title: string;
 };
-
+import Button from "@/components/ui/Button";
 export default function ChapterCard({
   title,
 }: ChapterCardProps) {
@@ -12,17 +12,19 @@ export default function ChapterCard({
       </h3>
 
       <div className="mt-5 flex gap-3">
-        <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
-          Notes
-        </button>
+        <div className="mt-5 flex flex-wrap gap-3">
+  <Button size="sm">
+    Notes
+  </Button>
 
-        <button className="rounded-lg border border-blue-600 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50">
-          MCQs
-        </button>
+  <Button size="sm" variant="secondary">
+    MCQs
+  </Button>
 
-        <button className="rounded-lg border border-blue-600 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50">
-          PYQs
-        </button>
+  <Button size="sm" variant="secondary">
+    PYQs
+  </Button>
+</div>
       </div>
     </div>
   );
