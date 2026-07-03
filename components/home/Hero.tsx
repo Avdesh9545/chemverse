@@ -1,3 +1,4 @@
+import Button from "@/components/ui/Button";
 export default function Hero() {
   return (
     <section className="bg-slate-50">
@@ -17,14 +18,12 @@ export default function Hero() {
         </p>
 
         <div className="mt-10 flex gap-4">
-          <button className="rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white hover:bg-blue-700">
-            Explore Notes
-          </button>
+  <Button>Explore Notes</Button>
 
-          <button className="rounded-xl border border-slate-300 px-8 py-4 font-semibold hover:bg-slate-100">
-            View Classes
-          </button>
-        </div>
+  <Button variant="secondary">
+    View Classes
+  </Button>
+</div>
       </div>
     </section>
   );
