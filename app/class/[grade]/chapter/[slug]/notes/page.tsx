@@ -32,8 +32,7 @@ export default async function NotesPage({
 
   // Find chapter content
   const content = getChapter(slug);
-  console.log("Slug =", slug);
-  console.log("Content =", content);
+  
   if (!chapter || !content) {
     notFound();
   }

@@ -25,8 +25,6 @@ export default function GradesSection() {
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
   {grades.map((item) => {
-    console.log("ITEM:", item);
-    console.log("PASSING LINK:", `/class-${item.id}`);
 
     return (
       <GradeCard
@@ -35,7 +33,7 @@ export default function GradesSection() {
         title={item.title}
         chapters={item.chapters}
         description={item.description}
-        link={`/class-${item.id}`}
+        link={`/class/${item.id}`}
       />
     );
   })}
