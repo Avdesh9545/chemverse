@@ -2,10 +2,14 @@ import { chapters } from "@/data/chapters";
 import ChapterCard from "./ChapterCard";
 
 export default function NotesSection() {
+  // MVP: Show only Class 9 chapters
+  const featuredChapters = chapters.filter(
+    (chapter) => chapter.grade === 9
+  );
+
   return (
     <section className="bg-slate-50 py-24">
       <div className="mx-auto max-w-7xl px-6">
-
         <div className="text-center">
           <p className="font-semibold uppercase tracking-widest text-blue-600">
             Chemistry Notes
@@ -21,14 +25,13 @@ export default function NotesSection() {
         </div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2">
-          {chapters.map((chapter) => (
+          {featuredChapters.map((chapter) => (
             <ChapterCard
-              key={chapter.id}
+              key={chapter.slug}
               title={chapter.title}
             />
           ))}
         </div>
-
       </div>
     </section>
   );

@@ -1,23 +1,84 @@
+import Link from "next/link";
+import SearchBar from "./SearchBar";
+import ChemVerseLogo from "@/components/ui/ChemVerseLogo";
+
+const navItems = [
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "Classes",
+    href: "/class",
+  },
+  {
+    label: "Notes",
+    href: "/class",
+  },
+  {
+    label: "Practice",
+    href: "/class",
+  },
+  {
+    label: "Tests",
+    href: "/class",
+  },
+];
+
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <h1 className="text-2xl font-bold text-blue-600">
-          ChemVerse
-        </h1>
+    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl">
+      <div className="mx-auto flex h-20 max-w-[1550px] items-center justify-between px-6">
 
-        <div className="hidden gap-8 md:flex">
-          <a href="#">Home</a>
-          <a href="#">Notes</a>
-          <a href="#">MCQs</a>
-          <a href="#">PYQs</a>
-          <a href="#">About</a>
+        {/* Logo */}
+        <Link
+          href="/"
+          className="flex items-center gap-4 transition-transform duration-300 hover:scale-[1.02]"
+        >
+          <div className="text-violet-600">
+            <ChemVerseLogo size={56} />
+          </div>
+
+          <div>
+            <h1 className="text-[34px] font-extrabold leading-none tracking-tight text-slate-900">
+              ChemVerse
+            </h1>
+
+            <p className="mt-0.5 text-sm font-medium tracking-wide text-slate-500">
+              Learn Chemistry Smarter
+            </p>
+          </div>
+        </Link>
+
+        {/* Navigation */}
+        <nav className="hidden items-center gap-8 lg:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="relative text-[17px] font-semibold tracking-tight text-slate-700 transition-colors duration-300 hover:text-violet-600 after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-0 after:bg-violet-600 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
+
+          <div className="hidden xl:block">
+            <SearchBar />
+          </div>
+
+          <Link
+            href="/class"
+            className="rounded-2xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl active:scale-95"
+          >
+            Start Learning →
+          </Link>
+
         </div>
-
-        <button className="rounded-lg bg-blue-600 px-5 py-2 text-white">
-          Get Started
-        </button>
       </div>
-    </nav>
+    </header>
   );
 }

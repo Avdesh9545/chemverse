@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 import QuizHeader from "./QuizHeader";
 import QuestionCard from "./QuestionCard";
 import QuestionPalette from "./QuestionPalette";
 import ResultCard from "./ResultCard";
 import ReviewCard from "./ReviewCard";
 import FinishModal from "./FinishModal";
+import QuizNavigation from "./QuizNavigation";
+import useQuizStorage from "@/hooks/useQuizStorage";
+
 
 interface Question {
   id: number;
@@ -20,93 +23,128 @@ interface Question {
 interface QuizProps {
   title: string;
   questions: Question[];
+  mode?: "practice" | "exam";
 }
 
 export default function Quiz({
   title,
   questions,
+  mode = "practice",
 }: QuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
+  const [markedForReview, setMarkedForReview] = useState<Record<number, boolean>>({});
+  const [quizFinished, setQuizFinished] = useState(false);
+  const [showReview, setShowReview] = useState(false);
+  const [showFinishModal, setShowFinishModal] = useState(false);
+  const [timerKey, setTimerKey] = useState(0);
+  const [timeUp, setTimeUp] = useState(false);
+  const [startTime] = useState(() => Date.now());
+  const [submittedAt, setSubmittedAt] = useState<number | null>(null);
+  useQuizStorage({
+  keyName: `quiz-${title}`,
+  currentQuestion,
+  selectedAnswers,
+  markedForReview,
+  setCurrentQuestion,
+  setSelectedAnswers,
+  setMarkedForReview,
+});
 
-  const [selectedAnswers, setSelectedAnswers] = useState<
-    Record<number, number>
-  >({});
-
-  const [quizFinished, setQuizFinished] =
-  useState(false);
-
-const [showReview, setShowReview] =
-  useState(false);
-
-const [showFinishModal, setShowFinishModal] =
-  useState(false);
-  const [timerKey, setTimerKey] =
-  useState(0);
-  const [markedForReview, setMarkedForReview] =
-  useState<Record<number, boolean>>({});
   const question = questions[currentQuestion];
   const answeredCount = Object.keys(selectedAnswers).length;
-
+  const isExam = mode === "exam";
+  const router = useRouter();
   function handleSelect(optionIndex: number) {
-  setSelectedAnswers((prev) => {
-    const updated = { ...prev };
+    if (timeUp) return;
 
-    if (updated[currentQuestion] === optionIndex) {
+    setSelectedAnswers((prev) => {
+      const updated = { ...prev };
+
+      if (updated[currentQuestion] === optionIndex) {
+        delete updated[currentQuestion];
+      } else {
+        updated[currentQuestion] = optionIndex;
+      }
+
+      return updated;
+    });
+  }
+
+  function handleClearResponse() {
+    if (timeUp) return;
+
+    setSelectedAnswers((prev) => {
+      const updated = { ...prev };
       delete updated[currentQuestion];
-    } else {
-      updated[currentQuestion] = optionIndex;
-    }
+      return updated;
+    });
+  }
 
-    return updated;
-  });
-}
+  function handleSaveAndMarkForReview() {
+    if (timeUp) return;
+
+    setMarkedForReview((prev) => ({
+      ...prev,
+      [currentQuestion]: true,
+    }));
+
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion((prev) => prev + 1);
+    } else {
+      setShowFinishModal(true);
+    }
+  }
 
   function handleRetry() {
+  localStorage.removeItem(`quiz-${title}`);
+  localStorage.removeItem(`timer-${title}`);
+
   setCurrentQuestion(0);
   setSelectedAnswers({});
+  setMarkedForReview({});
   setQuizFinished(false);
   setShowReview(false);
   setShowFinishModal(false);
-  setMarkedForReview({});
-  setTimerKey((prev) => prev + 1);
+  setTimeUp(false);
+  setSubmittedAt(null);
+  setTimerKey((k) => k + 1);
 }
 
   function calculateResult() {
     let correct = 0;
-
-    questions.forEach((question, index) => {
-      if (
-        selectedAnswers[index] ===
-        question.answer
-      ) {
-        correct++;
-      }
+    
+    questions.forEach((q, index) => {
+      if (selectedAnswers[index] === q.answer) correct++;
     });
+   /* const timeTaken =
+  submittedAt === null
+    ? 0
+    : Math.round((submittedAt - startTime) / 1000);*/
 
-    const attempted =
-      Object.keys(selectedAnswers).length;
+const attempted = Object.keys(selectedAnswers).length;
 
     return {
       correct,
       wrong: attempted - correct,
-      skipped:
-        questions.length - attempted,
+      skipped: questions.length - attempted,
     };
   }
 
   if (quizFinished) {
-  const result = calculateResult();
+    const result = calculateResult();
 
-  if (showReview) {
-    return (
-      <ReviewCard
-        questions={questions}
-        selectedAnswers={selectedAnswers}
-        onBack={() => setShowReview(false)}
-      />
-    );
-  }
+    if (showReview) {
+      return (
+        <ReviewCard
+          questions={questions}
+          selectedAnswers={selectedAnswers}
+          onBack={() => setShowReview(false)}
+        />
+      );
+    }
 
+    if (isExam) {
   return (
     <ResultCard
       total={questions.length}
@@ -115,119 +153,123 @@ const [showFinishModal, setShowFinishModal] =
       skipped={result.skipped}
       onRetry={handleRetry}
       onReview={() => setShowReview(true)}
+      examMode
     />
   );
 }
 
+return (
+  <ResultCard
+    total={questions.length}
+    correct={result.correct}
+    wrong={result.wrong}
+    skipped={result.skipped}
+    onRetry={handleRetry}
+    onReview={() => setShowReview(true)}
+  />
+);
+  }
+
   return (
-  <>
-    <FinishModal
-      open={showFinishModal}
-      answered={answeredCount}
-      total={questions.length}
-      onCancel={() => setShowFinishModal(false)}
-      onSubmit={() => {
-        setShowFinishModal(false);
-        setQuizFinished(true);
-      }}
-    />
-
-    <div className="grid gap-8 lg:grid-cols-4">
-
-      {/* Left Side */}
-
-      <div className="space-y-8 lg:col-span-3">
-
-        <QuizHeader
-        title={title}
-        current={currentQuestion + 1}
+    <>
+      <FinishModal
+        open={showFinishModal}
+        answered={answeredCount}
         total={questions.length}
-        timerKey={timerKey}
-        />
+        onCancel={() => setShowFinishModal(false)}
+        onSubmit={() => {
+  localStorage.removeItem(`quiz-${title}`);
+  localStorage.removeItem(`timer-${title}`);
 
-        <QuestionCard
-          question={question.question}
-          options={question.options}
-          selected={
-            selectedAnswers[currentQuestion] ??
-            null
-          }
-          onSelect={handleSelect}
-        />
+  const submitted = Date.now();
 
-        <div className="flex items-center justify-between">
+  setSubmittedAt(submitted);
+  setShowFinishModal(false);
 
-  <button
-    disabled={currentQuestion === 0}
-    onClick={() =>
-      setCurrentQuestion((prev) => prev - 1)
-    }
-    className="rounded-xl border-2 border-violet-600 bg-white px-6 py-3 font-semibold text-violet-600 shadow-sm transition-all duration-200 hover:bg-violet-50 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-400"
-  >
-    ← Previous
-  </button>
+  if (isExam) {
+    let correct = 0;
 
-  <div className="flex gap-3">
-
-    <button
-      onClick={() =>
-        setMarkedForReview((prev) => ({
-          ...prev,
-          [currentQuestion]: !prev[currentQuestion],
-        }))
+    questions.forEach((q, index) => {
+      if (selectedAnswers[index] === q.answer) {
+        correct++;
       }
-      className={`rounded-xl px-6 py-3 font-semibold shadow-sm transition-all duration-200 ${
-        markedForReview[currentQuestion]
-          ? "bg-amber-600 text-white hover:bg-amber-700"
-          : "border border-amber-500 bg-white text-amber-600 hover:bg-amber-50"
-      }`}
-    >
-      {markedForReview[currentQuestion]
-        ? "★ Marked"
-        : "☆ Mark for Review"}
-    </button>
+    });
 
-    {currentQuestion === questions.length - 1 ? (
-      <button
-        onClick={() =>
-          setShowFinishModal(true)
-        }
-        className="rounded-xl bg-green-600 px-6 py-3 font-semibold text-white shadow-sm transition-all duration-200 hover:bg-green-700"
-      >
-        🏁 Finish Quiz
-      </button>
-    ) : (
-      <button
-        onClick={() =>
-          setCurrentQuestion((prev) => prev + 1)
-        }
-        className="rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-sm transition-all duration-200 hover:bg-violet-700"
-      >
-        Save & Next →
-      </button>
-    )}
+    const attempted = Object.keys(selectedAnswers).length;
 
-  </div>
+    sessionStorage.setItem(
+  "assessment-result",
+  JSON.stringify({
+    title,
+    total: questions.length,
+    correct,
+    wrong: attempted - correct,
+    skipped: questions.length - attempted,
+    questions,
+    selectedAnswers,
+    submittedAt: submitted,
+  })
+);
 
-</div>
+    router.push("result");
+    return;
+  }
 
-      </div>
+  setQuizFinished(true);
+}}
+      />
 
-      {/* Right Side */}
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="min-w-0 space-y-8">
+          <QuizHeader
+  title={title}
+  current={currentQuestion + 1}
+  total={questions.length}
+  timerKey={timerKey}
+  mode={mode}
+  onTimeUp={() => {
+    setTimeUp(true);
+    setQuizFinished(true);
+  }}
+/>
 
-      <div className="h-fit lg:sticky lg:top-24">
 
-        <QuestionPalette
-          total={questions.length}
-          current={currentQuestion}
-          answered={selectedAnswers}
-          markedForReview={markedForReview}
-          onSelect={setCurrentQuestion}
+<QuestionCard
+            question={question.question}
+            options={question.options}
+            selected={selectedAnswers[currentQuestion] ?? null}
+            onSelect={handleSelect}
           />
 
-      </div>
+          <QuizNavigation
+  current={currentQuestion}
+  total={questions.length}
+  onPrevious={() =>
+    setCurrentQuestion((q) => Math.max(0, q - 1))
+  }
+  onNext={() => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion((q) => q + 1);
+    } else {
+      setShowFinishModal(true);
+    }
+  }}
+  onClear={handleClearResponse}
+  onMarkForReview={handleSaveAndMarkForReview}
+  onFinish={() => setShowFinishModal(true)}
+/>
+        </div>
 
-    </div>
-          </>
+        <div className="sticky top-24 h-fit">
+          <QuestionPalette
+            total={questions.length}
+            current={currentQuestion}
+            answered={selectedAnswers}
+            markedForReview={markedForReview}
+            onSelect={setCurrentQuestion}
+          />
+        </div>
+      </div>
+    </>
   );
 }

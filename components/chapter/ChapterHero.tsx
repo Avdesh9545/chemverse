@@ -1,47 +1,92 @@
-import Link from "next/link";
+import ChapterSummaryCard from "./dashboard/ChapterSummaryCard";
+import ContinueLearningCard from "./dashboard/ContinueLearningCard";
+import ActivityGrid from "./dashboard/ActivityGrid";
+import ChapterTopicsCard from "./dashboard/ChapterTopicsCard";
 
 interface ChapterHeroProps {
   grade: number;
   chapter: number;
+  slug: string;
   title: string;
   description: string;
+  topics: string[];
 }
 
 export default function ChapterHero({
   grade,
   chapter,
+  slug,
   title,
   description,
+  topics,
 }: ChapterHeroProps) {
+  const activities = [
+    {
+      title: "Study Notes",
+      description: "Complete chapter notes with theory and examples.",
+      href: `/class/${grade}/chapter/${slug}/notes`,
+      available: true,
+      icon: "notes" as const,
+    },
+
+    {
+      title: "Practice MCQs",
+      description: "Practice chapter-wise MCQs with instant results.",
+      href: `/class/${grade}/chapter/${slug}/mcqs`,
+      available: true,
+      icon: "practice" as const,
+    },
+
+    {
+      title: "Chapter Test",
+      description: "Attempt a full CBT-style chapter test.",
+      href: `/class/${grade}/chapter/${slug}/test`,
+      available: true,
+      icon: "test" as const,
+    },
+
+    {
+      title: "Video Lectures",
+      description: "Watch concept-wise video lectures.",
+      available: false,
+      icon: "videos" as const,
+    },
+
+    {
+      title: "Previous Year Questions",
+      description: "Solve important CBSE previous year questions.",
+      available: false,
+      icon: "pyqs" as const,
+    },
+
+    {
+      title: "Downloads",
+      description: "Download notes, worksheets and PDFs.",
+      available: false,
+      icon: "downloads" as const,
+    },
+  ];
+
   return (
-    <section className="rounded-3xl bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 p-10 text-white shadow-xl">
-      <p className="font-semibold text-violet-100">
-        Class {grade} • Chapter {chapter}
-      </p>
+    <div className="space-y-8">
+      <ChapterSummaryCard
+        grade={grade}
+        chapter={chapter}
+        title={title}
+        difficulty="Easy"
+        duration="4 hrs"
+      />
 
-      <h1 className="mt-3 text-4xl font-bold md:text-5xl">
-        {title}
-      </h1>
+      <ContinueLearningCard
+        title={title}
+        progress={0}
+        duration="4 hrs"
+        href={`/class/${grade}/chapter/${slug}/notes`}
+      />
 
-      <p className="mt-5 max-w-3xl text-lg text-violet-100">
-        {description}
-      </p>
+      <ActivityGrid activities={activities} />
 
-      <div className="mt-8 flex flex-wrap gap-4">
-        <Link
-          href="#"
-          className="rounded-xl bg-white px-6 py-3 font-semibold text-violet-700 transition hover:bg-slate-100"
-        >
-          📄 Download Notes
-        </Link>
-
-        <Link
-          href="#"
-          className="rounded-xl border border-white/30 bg-white/10 px-6 py-3 font-semibold backdrop-blur transition hover:bg-white/20"
-        >
-          🎥 Watch Video
-        </Link>
-      </div>
-    </section>
+      <ChapterTopicsCard topics={topics} />
+    </div>
   );
 }

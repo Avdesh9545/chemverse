@@ -1,6 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  CircleDashed,
+  XCircle,
+  Check,
+  X,
+} from "lucide-react";
 
 interface Question {
   id: number;
@@ -16,184 +23,201 @@ interface ReviewCardProps {
   onBack: () => void;
 }
 
+const labels = ["A", "B", "C", "D"];
+
 export default function ReviewCard({
   questions,
   selectedAnswers,
   onBack,
 }: ReviewCardProps) {
-  const [current, setCurrent] = useState(0);
-
-  const question = questions[current];
-  const userAnswer = selectedAnswers[current];
-
-  const status =
-    userAnswer === undefined
-      ? "skipped"
-      : userAnswer === question.answer
-      ? "correct"
-      : "wrong";
-
-  function badge() {
-    switch (status) {
-      case "correct":
-        return (
-          <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
-            ✓ Correct
-          </span>
-        );
-
-      case "wrong":
-        return (
-          <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700">
-            ✗ Incorrect
-          </span>
-        );
-
-      default:
-        return (
-          <span className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-600">
-            Not Attempted
-          </span>
-        );
-    }
-  }
-
   return (
-    <section className="mx-auto max-w-5xl space-y-8">
+    <main className="mx-auto max-w-6xl space-y-8">
 
       {/* Header */}
 
-      <div className="flex items-center justify-between">
+      <section className="rounded-3xl bg-gradient-to-r from-violet-700 to-blue-700 p-10 text-white shadow-xl">
 
-        <div>
-          <h1 className="text-4xl font-bold">
-            Review Answers
-          </h1>
+        <button
+          onClick={onBack}
+          className="mb-6 inline-flex items-center gap-2 rounded-xl bg-white/20 px-4 py-2 font-medium transition hover:bg-white/30"
+        >
+          <ArrowLeft className="h-5 w-5" />
+          Back to Result
+        </button>
 
-          <p className="mt-2 text-slate-500">
-            Question {current + 1} of {questions.length}
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold">
+          Answer Review
+        </h1>
 
-        <div className="flex items-center gap-4">
-          {badge()}
-
-          <button
-            onClick={onBack}
-            className="rounded-xl border border-slate-300 px-5 py-3 transition hover:bg-slate-100"
-          >
-            ← Back
-          </button>
-        </div>
-      </div>
-
-      {/* Progress */}
-
-      <div className="h-3 overflow-hidden rounded-full bg-slate-200">
-        <div
-          className="h-full rounded-full bg-violet-600 transition-all"
-          style={{
-            width: `${((current + 1) / questions.length) * 100}%`,
-          }}
-        />
-      </div>
-
-      {/* Question */}
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-
-        <h2 className="text-2xl font-bold">
-          Question {current + 1}
-        </h2>
-
-        <p className="mt-5 text-lg leading-8">
-          {question.question}
+        <p className="mt-3 text-lg text-white/90">
+          Learn from every question by comparing your answer with the correct solution.
         </p>
 
-        <div className="mt-8 space-y-4">
+      </section>
 
-          {question.options.map((option, index) => {
+      {questions.map((q, qIndex) => {
 
-            let classes =
-              "rounded-xl border p-5 transition";
+        const selected = selectedAnswers[qIndex];
+        const skipped = selected === undefined;
 
-            let label = "";
+        return (
+          <section
+            key={q.id}
+            className="rounded-3xl border border-slate-200 bg-white shadow-sm"
+          >
 
-            if (index === question.answer) {
-              classes +=
-                " border-green-600 bg-green-50";
+            {/* Question */}
 
-              label = "✓ Correct Answer";
-            }
+            <div className="border-b border-slate-100 p-8">
 
-            if (
-              index === userAnswer &&
-              userAnswer !== question.answer
-            ) {
-              classes =
-                "rounded-xl border border-red-600 bg-red-50 p-5";
+              <div className="flex items-start justify-between gap-6">
 
-              label = "Your Answer";
-            }
+                <div>
 
-            return (
-              <div
-                key={index}
-                className={classes}
-              >
-                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-600">
+                    Question {qIndex + 1}
+                  </p>
 
-                  <span>{option}</span>
-
-                  {label && (
-                    <span className="text-sm font-semibold">
-                      {label}
-                    </span>
-                  )}
+                  <h2 className="mt-3 text-2xl font-bold leading-relaxed text-slate-900">
+                    {q.question}
+                  </h2>
 
                 </div>
+
+                {skipped ? (
+                  <CircleDashed className="h-8 w-8 text-amber-500" />
+                ) : selected === q.answer ? (
+                  <CheckCircle2 className="h-8 w-8 text-green-600" />
+                ) : (
+                  <XCircle className="h-8 w-8 text-red-600" />
+                )}
+
               </div>
-            );
-          })}
-        </div>
 
-        {/* Explanation */}
+            </div>
 
-        <div className="mt-10 rounded-2xl border border-violet-200 bg-violet-50 p-6">
+            {/* Options */}
 
-          <h3 className="text-lg font-bold">
-            Explanation
-          </h3>
+            <div className="space-y-4 p-8">
 
-          <p className="mt-3 leading-7 text-slate-700">
-            {question.explanation}
-          </p>
+              {q.options.map((option, optionIndex) => {
 
-        </div>
-      </div>
+                const isCorrect =
+                  optionIndex === q.answer;
 
-      {/* Navigation */}
+                const isSelected =
+                  optionIndex === selected;
 
-      <div className="flex items-center justify-between">
+                let classes =
+                  "border-slate-200 bg-white";
 
-        <button
-          disabled={current === 0}
-          onClick={() => setCurrent((p) => p - 1)}
-          className="rounded-xl border border-slate-300 px-6 py-3 disabled:opacity-40"
-        >
-          ← Previous
-        </button>
+                if (isCorrect) {
+                  classes =
+                    "border-green-500 bg-green-50";
+                }
 
-        <button
-          disabled={current === questions.length - 1}
-          onClick={() => setCurrent((p) => p + 1)}
-          className="rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white disabled:opacity-40"
-        >
-          Next →
-        </button>
+                if (
+                  isSelected &&
+                  !isCorrect
+                ) {
+                  classes =
+                    "border-red-500 bg-red-50";
+                }
 
-      </div>
+                return (
 
-    </section>
+                  <div
+                    key={optionIndex}
+                    className={`rounded-2xl border p-5 transition ${classes}`}
+                  >
+
+                    <div className="flex items-center justify-between gap-4">
+
+                      <div className="flex items-center gap-4">
+
+                        <div
+                          className={`flex h-10 w-10 items-center justify-center rounded-full font-bold
+
+                          ${
+                            isCorrect
+                              ? "bg-green-600 text-white"
+                              : isSelected
+                              ? "bg-red-600 text-white"
+                              : "bg-slate-100 text-slate-700"
+                          }`}
+                        >
+
+                          {labels[optionIndex]}
+
+                        </div>
+
+                        <span className="text-lg text-slate-800">
+                          {option}
+                        </span>
+
+                      </div>
+
+                      <div className="flex gap-2">
+
+                        {isCorrect && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
+                            <Check className="h-3 w-3" />
+                            Correct
+                          </span>
+                        )}
+
+                        {isSelected && (
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold text-white
+
+                            ${
+                              isCorrect
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            }`}
+                          >
+                            {isCorrect ? (
+                              <Check className="h-3 w-3" />
+                            ) : (
+                              <X className="h-3 w-3" />
+                            )}
+
+                            Your Answer
+                          </span>
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                );
+
+              })}
+
+            </div>
+
+            {/* Explanation */}
+
+            <div className="border-t border-slate-100 bg-slate-50 p-8">
+
+              <h3 className="text-lg font-bold text-violet-700">
+                Explanation
+              </h3>
+
+              <p className="mt-4 leading-8 text-slate-700">
+                {q.explanation}
+              </p>
+
+            </div>
+
+          </section>
+
+        );
+
+      })}
+
+    </main>
   );
 }

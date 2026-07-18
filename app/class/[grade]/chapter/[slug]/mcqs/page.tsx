@@ -1,7 +1,9 @@
+
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { chapters } from "@/data/chapters";
-import { getMCQs } from "@/data/mcqs";
+import { getChapter } from "@/data/curriculum";
+import { buildChapterMetadata } from "@/lib/seo";
 
 import Breadcrumb from "@/components/chapter/Breadcrumb";
 import Quiz from "@/components/mcq/Quiz";
@@ -11,38 +13,62 @@ type Props = {
     grade: string;
     slug: string;
   }>;
+
+  searchParams: Promise<{
+    mode?: string;
+  }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const chapter = getChapter(slug);
+
+  if (!chapter) {
+    return {};
+  }
+
+  return buildChapterMetadata(chapter, "MCQs");
+}
 
 export default async function MCQsPage({
   params,
+  searchParams,
 }: Props) {
   const { grade, slug } = await params;
+  const { mode } = await searchParams;
 
-  const chapter = chapters.find(
-    (c) =>
-      c.grade === Number(grade) &&
-      c.slug === slug
-  );
+  const chapter = getChapter(slug);
 
-  const mcqs = getMCQs(slug);
-
-  if (!chapter || !mcqs) {
+  if (
+    !chapter ||
+    chapter.metadata.grade !== Number(grade)
+  ) {
     notFound();
   }
 
+  const quizMode =
+    mode === "exam" ? "exam" : "practice";
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
+    <main className="mx-auto max-w-[1500px] px-6 py-10">
       <Breadcrumb
-        grade={chapter.grade}
-        title={`${chapter.title} / MCQs`}
+        grade={chapter.metadata.grade}
+        title={`${chapter.metadata.title} / ${
+          quizMode === "exam"
+            ? "Chapter Test"
+            : "Practice"
+        }`}
       />
 
       <div className="mt-8">
         <Quiz
-  title={chapter.title}
-  questions={mcqs}
-/>
+          title={chapter.metadata.title}
+          questions={chapter.mcqs}
+          mode={quizMode}
+        />
       </div>
     </main>
   );

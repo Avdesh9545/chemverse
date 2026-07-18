@@ -1,15 +1,14 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { chapters } from "@/data/chapters";
-import { getChapter } from "@/data/chapterContent";
+import { getChapter } from "@/data/curriculum";
+import { buildChapterMetadata } from "@/lib/seo";
 
 import Breadcrumb from "@/components/chapter/Breadcrumb";
 
 import NotesHero from "./components/NotesHero";
 import NotesSidebar from "./components/NotesSidebar";
-import NotesContent from "./components/NotesContent";
-import PDFViewer from "./components/PDFViewer";
-//import DownloadCard from "./components/DownloadCard";
+import NotesReader from "./components/NotesReader";
 
 type Props = {
   params: Promise<{
@@ -18,64 +17,69 @@ type Props = {
   }>;
 };
 
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const chapter = getChapter(slug);
+
+  if (!chapter) {
+    return {};
+  }
+
+  return buildChapterMetadata(chapter, "Notes");
+}
+
 export default async function NotesPage({
   params,
 }: Props) {
   const { grade, slug } = await params;
 
-  // Find the chapter
-  const chapter = chapters.find(
-    (c) =>
-      c.grade === Number(grade) &&
-      c.slug === slug
-  );
+  const chapter = getChapter(slug);
 
-  // Find chapter content
-  const content = getChapter(slug);
-  
-  if (!chapter || !content) {
+  if (
+    !chapter ||
+    chapter.metadata.grade !== Number(grade)
+  ) {
     notFound();
   }
 
+  const pdf =
+    chapter.downloads.find(
+      (d) => d.type === "Notes"
+    )?.file ?? "";
+
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
-
-      {/* Breadcrumb */}
       <Breadcrumb
-        grade={chapter.grade}
-        title={`${chapter.title} / Notes`}
+        grade={chapter.metadata.grade}
+        title={`${chapter.metadata.title} / Notes`}
       />
 
-      {/* Hero */}
       <NotesHero
-        title={`${chapter.title} Notes`}
-        description={content.description}
+        title={`${chapter.metadata.title} Notes`}
+        description={chapter.metadata.description}
       />
 
-      {/* Main Layout */}
-      <div className="mt-10 grid gap-8 lg:grid-cols-4">
-
-        {/* Left Sidebar */}
-       <div className="sticky top-24 self-start">
-
-  <NotesSidebar
-    tableOfContents={content.tableOfContents}
-    pdf={content.pdf}
-  />
-
-</div>
-
-        {/* Main Content */}
-        <div className="space-y-8 lg:col-span-3">
-
-          <PDFViewer pdf={content.pdf} />
-
-          <NotesContent />
-
+      <div className="mt-10 grid gap-8 lg:grid-cols-12">
+        {/* Sidebar */}
+        <div className="lg:col-span-3">
+          <div className="sticky top-24">
+            <NotesSidebar
+              tableOfContents={chapter.notes.map(
+                (note) => note.title
+              )}
+              pdf={pdf}
+            />
+          </div>
         </div>
 
+        {/* Reader */}
+        <div className="lg:col-span-9">
+          <NotesReader notes={chapter.notes} />
+        </div>
       </div>
-
     </main>
   );
 }

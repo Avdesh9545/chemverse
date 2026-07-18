@@ -1,4 +1,10 @@
 import Link from "next/link";
+import {
+  BookOpen,
+  FileQuestion,
+  Clock3,
+  ChevronRight,
+} from "lucide-react";
 
 type GradeCardProps = {
   grade: string;
@@ -8,38 +14,103 @@ type GradeCardProps = {
   link: string;
 };
 
+const colors = [
+  "from-violet-500 to-purple-600",
+  "from-violet-500 to-purple-600",
+  "from-violet-500 to-purple-600",
+  "from-violet-500 to-purple-600",
+];
+const icons = ["🧪", "⚛️", "⚗️", "🔬"];
+
 export default function GradeCard({
   grade,
   title,
-  chapters,
+  //chapters,
   description,
   link,
 }: GradeCardProps) {
-   
+  const gradeNumber = Number(grade.replace(/\D/g, "")) || 9;
+  const index = Math.min(Math.max(gradeNumber - 9, 0), 3);
+
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <span className="inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-        {grade}
-      </span>
+    <Link
+      href={link}
+      className="group block overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-violet-300 hover:shadow-2xl"
+    >
+      {/* Header */}
 
-      <h3 className="mt-6 text-2xl font-bold text-slate-900">
-        {title}
-      </h3>
-
-      <p className="mt-3 text-slate-600">
-        {description}
-      </p>
-
-      <p className="mt-5 text-sm font-medium text-blue-600">
-        📚 {chapters} Chapters
-      </p>
-
-      <Link
-        href={link}
-        className="mt-8 inline-block rounded-xl bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
+      <div
+        className={`bg-gradient-to-r ${colors[index]} p-8 text-white`}
       >
-        Start Learning →
-      </Link>
-    </div>
+        <div className="flex items-center justify-between">
+
+          <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
+            {grade}
+          </span>
+
+          <span className="text-5xl">
+            {icons[index]}
+          </span>
+
+        </div>
+
+        <h2 className="mt-8 text-4xl font-extrabold tracking-tight">
+  {title}
+</h2>
+
+      </div>
+
+      {/* Body */}
+
+      <div className="space-y-6 p-8">
+
+        <p className="min-h-21 leading-7 text-slate-600">
+          {description}
+        </p>
+
+        {/* Resources */}
+
+        <div className="grid grid-cols-2 gap-3">
+
+          <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-violet-50 hover:text-violet-700">
+            <BookOpen size={18} />
+            Notes
+          </div>
+
+          <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-violet-50 hover:text-violet-700">
+            <FileQuestion size={18} />
+            MCQs
+          </div>
+
+          <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-violet-50 hover:text-violet-700">
+            📄
+            PYQs
+          </div>
+
+          <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-violet-50 hover:text-violet-700">
+            🎥
+            Videos
+          </div>
+
+        </div>
+
+        {/* Footer */}
+
+        <div className="flex items-center justify-between border-t pt-6">
+
+          <div className="flex items-center gap-2 text-sm text-slate-500">
+            <Clock3 size={16} />
+            Self-paced
+          </div>
+
+          <div className="flex items-center gap-2 font-semibold text-violet-600 transition-transform duration-300 group-hover:translate-x-2">
+            Start Learning
+            <ChevronRight size={18} />
+          </div>
+
+        </div>
+
+      </div>
+    </Link>
   );
 }

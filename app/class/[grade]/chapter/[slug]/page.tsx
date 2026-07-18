@@ -1,11 +1,13 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Breadcrumb from "@/components/chapter/Breadcrumb";
 import ChapterHero from "@/components/chapter/ChapterHero";
-import ResourceGrid from "@/components/chapter/ResourceGrid";
+import ChapterNavigation from "@/components/chapter/ChapterNavigation";
 
-import { chapters } from "@/data/chapters";
-import { getChapter } from "@/data/chapterContent";
+import { getChapter } from "@/data/curriculum";
+import { buildChapterMetadata } from "@/lib/seo";
+import ChapterPager from "@/components/chapter/ChapterPager";
 
 type Props = {
   params: Promise<{
@@ -14,77 +16,89 @@ type Props = {
   }>;
 };
 
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const chapter = getChapter(slug);
+
+  if (!chapter) {
+    return {};
+  }
+
+  return buildChapterMetadata(chapter);
+}
+
 export default async function ChapterPage({ params }: Props) {
   const { grade, slug } = await params;
 
-  const chapter = chapters.find(
-    (c) =>
-      c.slug === slug &&
-      c.grade === Number(grade)
-  );
+  const chapter = getChapter(slug);
 
-  const resources = [
-  {
-  title: "Notes",
-  description: "Complete chapter notes",
-  href: `/class/${grade}/chapter/${slug}/notes`,
-  icon: "📄",
-  },
-  {
-    title: "Videos",
-    description: "Watch concept videos",
-    href: "#",
-    icon: "🎥",
-  },
-  
-
-  {
-  title: "MCQs",
-  description: "Practice objective questions",
-  href: `/class/${grade}/chapter/${slug}/mcqs`,
-  icon: "📝",
-  },
-  {
-    title: "NCERT Solutions",
-    description: "Exercise-wise solutions",
-    href: "#",
-    icon: "📚",
-  },
-  {
-    title: "PYQs",
-    description: "Previous year questions",
-    href: "#",
-    icon: "📊",
-  },
-  {
-    title: "Downloads",
-    description: "PDFs and worksheets",
-    href: "#",
-    icon: "⬇️",
-  },
-];
-
-  const content = getChapter(slug);
-
-  if (!chapter || !content) {
+  if (!chapter || chapter.metadata.grade !== Number(grade)) {
     notFound();
   }
+
+  const resources = [
+    {
+      title: "Notes",
+      description: "Complete chapter notes",
+      href: `/class/${grade}/chapter/${slug}/notes`,
+      icon: "📄",
+    },
+    {
+      title: "Videos",
+      description: "Watch concept videos",
+      href: "#",
+      icon: "🎥",
+    },
+    {
+      title: "MCQs",
+      description: "Practice & Chapter Test",
+      href: `/class/${grade}/chapter/${slug}/test`,
+      icon: "📝",
+    },
+    {
+      title: "NCERT Solutions",
+      description: "Exercise-wise solutions",
+      href: "#",
+      icon: "📚",
+    },
+    {
+      title: "PYQs",
+      description: "Previous year questions",
+      href: "#",
+      icon: "📊",
+    },
+    {
+      title: "Downloads",
+      description: "PDFs and worksheets",
+      href: "#",
+      icon: "⬇️",
+    },
+  ];
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
       <Breadcrumb
-        grade={chapter.grade}
-        title={chapter.title}
+        grade={chapter.metadata.grade}
+        title={chapter.metadata.title}
       />
 
       <ChapterHero
-        grade={chapter.grade}
-        chapter={chapter.id}
-        title={chapter.title}
-        description={content.description}
-      />
+  grade={chapter.metadata.grade}
+  chapter={chapter.metadata.chapterNumber}
+  slug={chapter.metadata.slug}
+  title={chapter.metadata.title}
+  description={chapter.metadata.description}
+  topics={chapter.topics}
+/>
 
-      <ResourceGrid resources={resources} />
+      <ChapterNavigation
+        grade={chapter.metadata.grade}
+        slug={chapter.metadata.slug}
+      />
+      <ChapterPager slug={chapter.metadata.slug} />
     </main>
   );
 }
