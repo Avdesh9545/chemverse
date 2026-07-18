@@ -42,3 +42,4 @@ next-env.d.ts
 # Local backups
 Backup/
 *.zip
+/lib/generated/prisma

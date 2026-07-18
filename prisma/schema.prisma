@@ -1,0 +1,145 @@
+// ======================================================
+// ChemVerse Database Schema v1.0
+// ======================================================
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  passwordHash   String
+  image          String?
+  role           Role     @default(STUDENT)
+  emailVerified  Boolean  @default(false)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  studentProfile StudentProfile?
+  teacherProfile TeacherProfile?
+
+  @@index([email])
+}
+
+model StudentProfile {
+  id        String @id @default(cuid())
+
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  grade     Int
+
+  school    String?
+  city      String?
+  state     String?
+
+  xp         Int @default(0)
+  streak     Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  progress     Progress[]
+  bookmarks    Bookmark[]
+  quizAttempts QuizAttempt[]
+
+  @@index([grade])
+}
+
+model TeacherProfile {
+
+  id String @id @default(cuid())
+
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  institution String?
+
+  designation String?
+
+  verified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model Progress {
+
+  id String @id @default(cuid())
+
+  studentId String
+
+  student StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  chapterSlug String
+
+  notesCompleted Boolean @default(false)
+
+  quizCompleted Boolean @default(false)
+
+  score Int @default(0)
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, chapterSlug])
+
+  @@index([chapterSlug])
+}
+
+model Bookmark {
+
+  id String @id @default(cuid())
+
+  studentId String
+
+  student StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  chapterSlug String
+
+  topicSlug String?
+
+  createdAt DateTime @default(now())
+
+  @@index([chapterSlug])
+
+}
+
+model QuizAttempt {
+
+  id String @id @default(cuid())
+
+  studentId String
+
+  student StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  chapterSlug String
+
+  score Int
+
+  correct Int
+
+  wrong Int
+
+  timeTaken Int
+
+  submittedAt DateTime @default(now())
+
+  @@index([submittedAt])
+
+}
