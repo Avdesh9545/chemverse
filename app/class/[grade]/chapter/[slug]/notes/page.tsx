@@ -8,6 +8,7 @@ import Breadcrumb from "@/components/chapter/Breadcrumb";
 
 import NotesHero from "./components/NotesHero";
 import NotesSidebar from "./components/NotesSidebar";
+import CompletionButton from "@/components/learning/CompletionButton";
 import NotesReader from "./components/NotesReader";
 
 type Props = {
@@ -76,9 +77,16 @@ export default async function NotesPage({
         </div>
 
         {/* Reader */}
-        <div className="lg:col-span-9">
-          <NotesReader notes={chapter.notes} />
-        </div>
+        {/* Reader */}
+<div className="lg:col-span-9">
+  <div className="mb-8 flex justify-end">
+    <CompletionButton
+      chapterSlug={chapter.metadata.slug}
+    />
+  </div>
+
+  <NotesReader notes={chapter.notes} />
+</div>
       </div>
     </main>
   );

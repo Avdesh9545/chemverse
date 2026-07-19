@@ -1,18 +1,30 @@
-import { PrismaClient } from "@/lib/generated/prisma";
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
-const globalForPrisma = globalThis as {
-  prisma?: PrismaClient;
-};
+const connectionString = process.env.DIRECT_URL;
+
+if (!connectionString) {
+  throw new Error("DIRECT_URL is not defined.");
+}
+
+const pool = new Pool({
+  connectionString,
+});
+
+const adapter = new PrismaPg(pool);
+
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined;
+}
 
 export const prisma =
-  globalForPrisma.prisma ??
+  global.prisma ??
   new PrismaClient({
-    log:
-      process.env.NODE_ENV === "development"
-        ? ["warn", "error"]
-        : ["error"],
+    adapter,
   });
 
 if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+  global.prisma = prisma;
 }
