@@ -1,7 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Achievements from "@/components/dashboard/Achievements";
+import type { Progress } from "@prisma/client";
 
+import Achievements from "@/components/dashboard/Achievements";
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import ContinueLearningCard from "@/components/dashboard/ContinueLearningCard";
 import ProgressOverviewCard from "@/components/dashboard/ProgressOverviewCard";
@@ -32,7 +33,7 @@ export default async function DashboardPage() {
   const totalChapters = dashboard.progress.length;
 
   const completedChapters = dashboard.progress.filter(
-    (chapter) =>
+    (chapter: Progress) =>
       chapter.notesCompleted && chapter.quizCompleted
   ).length;
 
@@ -44,7 +45,7 @@ export default async function DashboardPage() {
 
   const currentChapter =
     dashboard.progress.find(
-      (chapter) =>
+      (chapter: Progress) =>
         !chapter.notesCompleted ||
         !chapter.quizCompleted
     ) ?? dashboard.progress[0];
@@ -81,38 +82,39 @@ export default async function DashboardPage() {
       date: "Recently",
     });
   }
+
   const achievements = [
-  {
-    id: "notes",
-    icon: "📘",
-    title: "Note Reader",
-    description: "Complete your first chapter notes.",
-    unlocked: completedChapters > 0,
-  },
-  {
-    id: "quiz",
-    icon: "📝",
-    title: "Quiz Explorer",
-    description: "Attempt your first quiz.",
-    unlocked: quizAttemptCount > 0,
-  },
-  {
-    id: "chapter",
-    icon: "🧪",
-    title: "Chemistry Explorer",
-    description: "Complete your first chapter.",
-    unlocked: completedChapters > 0,
-  },
-  {
-    id: "perfect",
-    icon: "⭐",
-    title: "Perfect Score",
-    description: "Score 100% on a quiz.",
-    unlocked: dashboard.attempts.some(
-      (attempt) => attempt.score === 100
-    ),
-  },
-];
+    {
+      id: "notes",
+      icon: "📘",
+      title: "Note Reader",
+      description: "Complete your first chapter notes.",
+      unlocked: completedChapters > 0,
+    },
+    {
+      id: "quiz",
+      icon: "📝",
+      title: "Quiz Explorer",
+      description: "Attempt your first quiz.",
+      unlocked: quizAttemptCount > 0,
+    },
+    {
+      id: "chapter",
+      icon: "🧪",
+      title: "Chemistry Explorer",
+      description: "Complete your first chapter.",
+      unlocked: completedChapters > 0,
+    },
+    {
+      id: "perfect",
+      icon: "⭐",
+      title: "Perfect Score",
+      description: "Score 100% on a quiz.",
+      unlocked: dashboard.attempts.some(
+        (attempt) => attempt.score === 100
+      ),
+    },
+  ];
 
   return (
     <main className="mx-auto max-w-7xl space-y-8 px-6 py-10">
@@ -122,7 +124,6 @@ export default async function DashboardPage() {
         totalChapters={totalChapters}
       />
 
-      {/* Continue Learning + Progress */}
       <div className="grid gap-8 lg:grid-cols-2">
         <ContinueLearningCard
           chapterTitle={
@@ -147,7 +148,6 @@ export default async function DashboardPage() {
         />
       </div>
 
-      {/* Statistics */}
       <StatsGrid
         chaptersStarted={chaptersStarted}
         chaptersCompleted={completedChapters}
@@ -155,8 +155,8 @@ export default async function DashboardPage() {
         quizAttempts={quizAttemptCount}
       />
 
-      {/* Recent Activity */}
       <RecentActivity activities={activities} />
+
       <Achievements achievements={achievements} />
     </main>
   );

@@ -1,11 +1,20 @@
 import { prisma } from "@/lib/prisma";
+import type {
+  Progress,
+  Bookmark,
+  QuizAttempt,
+} from "@prisma/client";
 
-export async function getDashboardData(studentId: string) {
-  const [
-    progress,
-    bookmarks,
-    attempts,
-  ] = await Promise.all([
+export interface DashboardData {
+  progress: Progress[];
+  bookmarks: Bookmark[];
+  attempts: QuizAttempt[];
+}
+
+export async function getDashboardData(
+  studentId: string
+): Promise<DashboardData> {
+  const [progress, bookmarks, attempts] = await Promise.all([
     prisma.progress.findMany({
       where: {
         studentId,
