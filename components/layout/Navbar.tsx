@@ -1,6 +1,9 @@
 import Link from "next/link";
-import SearchBar from "./SearchBar";
+
+import { auth } from "@/auth";
 import ChemVerseLogo from "@/components/ui/ChemVerseLogo";
+import UserMenu from "@/components/layout/UserMenu";
+import SearchBar from "./SearchBar";
 
 const navItems = [
   {
@@ -25,11 +28,12 @@ const navItems = [
   },
 ];
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await auth();
+
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-[1550px] items-center justify-between px-6">
-
         {/* Logo */}
         <Link
           href="/"
@@ -65,18 +69,38 @@ export default function Navbar() {
 
         {/* Right Side */}
         <div className="flex items-center gap-4">
-
           <div className="hidden xl:block">
             <SearchBar />
           </div>
 
-          <Link
-            href="/class"
-            className="rounded-2xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl active:scale-95"
-          >
-            Start Learning →
-          </Link>
+          {session?.user ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="rounded-2xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl active:scale-95"
+              >
+                Dashboard
+              </Link>
 
+              <UserMenu userName={session.user.name} />
+            </>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/login"
+                className="rounded-2xl border border-violet-600 px-6 py-3 font-semibold text-violet-700 transition-all duration-300 hover:bg-violet-50"
+              >
+                Login
+              </Link>
+
+              <Link
+                href="/register"
+                className="rounded-2xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl active:scale-95"
+              >
+                Register →
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>
