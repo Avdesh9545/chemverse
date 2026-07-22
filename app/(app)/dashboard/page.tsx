@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import type { Progress } from "@prisma/client";
 
 import Achievements from "@/components/dashboard/Achievements";
 import DashboardHero from "@/components/dashboard/DashboardHero";
@@ -33,9 +32,9 @@ export default async function DashboardPage() {
   const totalChapters = dashboard.progress.length;
 
   const completedChapters = dashboard.progress.filter(
-    (chapter: Progress) =>
-      chapter.notesCompleted && chapter.quizCompleted
-  ).length;
+  (chapter) =>
+    chapter.notesCompleted && chapter.quizCompleted
+).length;
 
   const chaptersStarted = dashboard.progress.length;
 
@@ -44,11 +43,11 @@ export default async function DashboardPage() {
   const quizAttemptCount = dashboard.attempts.length;
 
   const currentChapter =
-    dashboard.progress.find(
-      (chapter: Progress) =>
-        !chapter.notesCompleted ||
-        !chapter.quizCompleted
-    ) ?? dashboard.progress[0];
+  dashboard.progress.find(
+    (chapter) =>
+      !chapter.notesCompleted ||
+      !chapter.quizCompleted
+  ) ?? dashboard.progress[0];
 
   const currentChapterData = currentChapter
     ? getChapter(currentChapter.chapterSlug)
