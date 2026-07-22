@@ -1,44 +1,55 @@
 "use client";
 
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
-interface QuizStorageProps {
+type StorageProps = {
   keyName: string;
+
   currentQuestion: number;
   selectedAnswers: Record<number, number>;
   markedForReview: Record<number, boolean>;
-  setCurrentQuestion: (value: number) => void;
-  setSelectedAnswers: (value: Record<number, number>) => void;
-  setMarkedForReview: (value: Record<number, boolean>) => void;
-}
+
+  setCurrentQuestion: Dispatch<SetStateAction<number>>;
+  setSelectedAnswers: Dispatch<
+    SetStateAction<Record<number, number>>
+  >;
+  setMarkedForReview: Dispatch<
+    SetStateAction<Record<number, boolean>>
+  >;
+};
 
 export default function useQuizStorage({
   keyName,
+
   currentQuestion,
   selectedAnswers,
   markedForReview,
+
   setCurrentQuestion,
   setSelectedAnswers,
   setMarkedForReview,
-}: QuizStorageProps) {
-  // Restore once on mount
+}: StorageProps) {
   useEffect(() => {
     const saved = localStorage.getItem(keyName);
 
     if (!saved) return;
 
     try {
-      const data = JSON.parse(saved);
+      const parsed = JSON.parse(saved);
 
-      setCurrentQuestion(data.currentQuestion ?? 0);
-      setSelectedAnswers(data.selectedAnswers ?? {});
-      setMarkedForReview(data.markedForReview ?? {});
+      setCurrentQuestion(parsed.currentQuestion ?? 0);
+      setSelectedAnswers(parsed.selectedAnswers ?? {});
+      setMarkedForReview(parsed.markedForReview ?? {});
     } catch {
-      console.warn("Failed to restore quiz state");
+      localStorage.removeItem(keyName);
     }
-  }, []);
+  }, [
+    keyName,
+    setCurrentQuestion,
+    setSelectedAnswers,
+    setMarkedForReview,
+  ]);
 
-  // Save whenever state changes
   useEffect(() => {
     localStorage.setItem(
       keyName,

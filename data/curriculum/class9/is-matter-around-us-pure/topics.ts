@@ -1,9 +1,3 @@
-// =============================================
-// Class IX
-// Chapter 2 - Is Matter Around Us Pure
-// Topics
-// =============================================
-
 export const topics: string[] = [
   "Pure Substances and Mixtures",
   "Types of Mixtures",
@@ -12,12 +6,12 @@ export const topics: string[] = [
   "Suspensions",
   "Colloids",
   "Comparison of Solutions, Colloids and Suspensions",
-  "Separating Components of Mixtures",
+  "Methods of Separation",
   "Filtration",
-  "Separation by Evaporation",
-  "Separation by Centrifugation",
-  "Separation by Separating Funnel",
-  "Separation by Sublimation",
+  "Evaporation",
+  "Centrifugation",
+  "Separating Funnel",
+  "Sublimation",
   "Distillation",
   "Fractional Distillation",
   "Chromatography",

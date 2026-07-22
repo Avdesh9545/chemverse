@@ -92,7 +92,7 @@ export const pyqs: PYQQuestion[] = [
       "Write the chemical formulae of aluminium oxide, calcium chloride and ammonium sulphate.",
     solution:
       "Al₂O₃, CaCl₂ and (NH₄)₂SO₄.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -146,7 +146,7 @@ export const pyqs: PYQQuestion[] = [
       "Write the chemical formula of magnesium nitrate and explain the steps involved.",
     solution:
       "Magnesium forms Mg²⁺ and nitrate is NO₃⁻. Criss-crossing the valencies gives Mg(NO₃)₂. Brackets are used because there are two nitrate ions.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -190,7 +190,7 @@ export const pyqs: PYQQuestion[] = [
       "A student writes the formula of calcium hydroxide as CaOH₂. Identify the mistake and write the correct formula.",
     solution:
       "Hydroxide (OH⁻) is a polyatomic ion. Since there are two hydroxide ions, brackets must be used. The correct formula is Ca(OH)₂.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -212,7 +212,7 @@ export const pyqs: PYQQuestion[] = [
       "Why are brackets used while writing the formula of ammonium sulphate, (NH₄)₂SO₄?",
     solution:
       "Ammonium (NH₄⁺) is a polyatomic ion. Since two ammonium ions are required to balance one sulphate ion, brackets are used before writing the subscript 2.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -255,7 +255,7 @@ export const pyqs: PYQQuestion[] = [
       "Write the chemical formulae of sodium sulphate, calcium phosphate and aluminium nitrate.",
     solution:
       "Sodium sulphate = Na₂SO₄\nCalcium phosphate = Ca₃(PO₄)₂\nAluminium nitrate = Al(NO₃)₃",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -288,7 +288,7 @@ export const pyqs: PYQQuestion[] = [
       "A student writes the formula of magnesium oxide as MgO₂. Is this correct? Justify your answer.",
     solution:
       "No. Magnesium has valency 2 and oxygen also has valency 2. The simplest ratio is 1:1, so the correct formula is MgO.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -307,10 +307,10 @@ export const pyqs: PYQQuestion[] = [
     year: 2023,
     exam: "CBSE Sample Paper",
     question:
-      "How many atoms are present in one molecule of calcium carbonate (CaCO₃)?",
+      "How many atoms are present in one formula unit of calcium carbonate (CaCO₃)?",
     solution:
       "CaCO₃ contains 1 calcium atom, 1 carbon atom and 3 oxygen atoms.\nTotal = 5 atoms.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -342,7 +342,7 @@ export const pyqs: PYQQuestion[] = [
       "A student is asked to prepare sodium chloride by combining sodium and chlorine. Explain why the formula of sodium chloride is NaCl and not Na₂Cl or NaCl₂.",
     solution:
       "Sodium has a valency of 1 (Na⁺) and chlorine has a valency of 1 (Cl⁻). They combine in the ratio 1:1 to balance their charges. Hence, the correct formula is NaCl.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -364,7 +364,7 @@ export const pyqs: PYQQuestion[] = [
       "A student writes the formula of calcium nitrate as CaNO₃. Identify the mistake and write the correct formula with justification.",
     solution:
       "Calcium forms Ca²⁺ and nitrate is NO₃⁻. Two nitrate ions are required to balance one calcium ion. Therefore, the correct formula is Ca(NO₃)₂.",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {

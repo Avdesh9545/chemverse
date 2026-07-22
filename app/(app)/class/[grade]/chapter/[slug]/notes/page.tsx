@@ -9,7 +9,7 @@ import Breadcrumb from "@/components/chapter/Breadcrumb";
 import NotesHero from "./components/NotesHero";
 import NotesSidebar from "./components/NotesSidebar";
 import CompletionButton from "@/components/learning/CompletionButton";
-import NotesReader from "./components/NotesReader";
+import { Reader } from "@/components/reader";
 
 type Props = {
   params: Promise<{
@@ -58,10 +58,29 @@ export default async function NotesPage({
         title={`${chapter.metadata.title} / Notes`}
       />
 
-      <NotesHero
-        title={`${chapter.metadata.title} Notes`}
-        description={chapter.metadata.description}
-      />
+      <section className="mt-6 mb-8 rounded-3xl border border-slate-200 bg-white px-8 py-8 shadow-sm">
+  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-violet-600">
+    CLASS {chapter.metadata.grade} • CHEMISTRY
+  </p>
+
+  <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+  Chapter Notes
+</h1>
+
+  <p className="mt-3 max-w-3xl text-slate-600">
+  Read every topic carefully before attempting MCQs and chapter tests.
+</p>
+
+  <div className="mt-6 flex flex-wrap gap-3 text-sm">
+    <span className="rounded-full bg-violet-100 px-3 py-1 text-violet-700">
+      {chapter.notes.length} Topics
+    </span>
+
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+      {chapter.metadata.estimatedStudyTime} min study plan
+    </span>
+  </div>
+</section>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-12">
         {/* Sidebar */}
@@ -85,7 +104,7 @@ export default async function NotesPage({
     />
   </div>
 
-  <NotesReader notes={chapter.notes} />
+  <Reader chapter={chapter} />
 </div>
       </div>
     </main>

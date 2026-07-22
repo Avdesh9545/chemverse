@@ -1,20 +1,27 @@
-import "next-auth";
+import { DefaultSession } from "next-auth";
+
+export type AppRole = "ADMIN" | "TEACHER" | "STUDENT";
 
 declare module "next-auth" {
+  interface User {
+    id: string;
+    role: AppRole;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  }
+
   interface Session {
     user: {
       id: string;
-      role: "STUDENT" | "TEACHER" | "ADMIN";
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    };
+      role: AppRole;
+    } & DefaultSession["user"];
   }
 }
 
-declare module "@auth/core/types" {
-  interface User {
+declare module "next-auth/jwt" {
+  interface JWT {
     id: string;
-    role: "STUDENT" | "TEACHER" | "ADMIN";
+    role: AppRole;
   }
 }

@@ -36,11 +36,26 @@ export interface ChapterMetadata {
   hasVideos: boolean;
   hasWorksheets: boolean;
 }
-
-export interface NoteSection {
-  id: string;
+export interface ReaderInsight {
+  variant: "tip" | "warning" | "takeaway";
   title: string;
   content: string;
+}
+
+export interface NoteSection {
+    id: string;
+    title: string;
+    content: string;
+
+    // Optional learning enhancements
+    learningGoals?: string[];
+    keyTakeaway?: string;
+    examTip?: string;
+    commonMistake?: string;
+
+    // Reserved for future rich content
+    illustration?: string;
+    insights?: ReaderInsight[];
 }
 
 export interface VideoResource {

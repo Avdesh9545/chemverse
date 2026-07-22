@@ -250,7 +250,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Magnesium has valency 2 and chlorine has valency 1, so the formula is MgCl₂.",
     difficulty: "Medium",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -261,7 +261,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Aluminium has valency 3 and oxygen has valency 2. Criss-crossing gives Al₂O₃.",
     difficulty: "Medium",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -332,7 +332,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Calcium has valency 2 and chlorine has valency 1, so the correct formula is CaCl₂.",
     difficulty: "Medium",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -349,7 +349,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Aluminium has valency 3 and chlorine has valency 1, so the correct formula is AlCl₃.",
     difficulty: "Hard",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -401,13 +401,13 @@ export const mcqs: MCQQuestion[] = [
   {
     id: 29,
     question:
-      "Which compound contains three oxygen atoms in one molecule?",
+      "Which compound contains three oxygen atoms in one formula unit?",
     options: ["CO", "CO₂", "Al₂O₃", "H₂O"],
     answer: 2,
     explanation:
       "Al₂O₃ contains three oxygen atoms in one formula unit.",
     difficulty: "Medium",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -424,7 +424,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Ammonium has a charge of +1 and sulphate has a charge of -2, so two ammonium ions are needed: (NH₄)₂SO₄.",
     difficulty: "Hard",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
     {
     id: 31,
@@ -474,7 +474,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Sodium has valency 1 and oxygen has valency 2, giving the formula Na₂O.",
     difficulty: "Medium",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -525,7 +525,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Since hydroxide is a polyatomic ion, brackets must be used when more than one hydroxide ion is present: Ca(OH)₂.",
     difficulty: "Hard",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -559,7 +559,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Ammonium has a +1 charge and carbonate has a -2 charge, so two ammonium ions are required.",
     difficulty: "Hard",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -643,7 +643,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "When more than one polyatomic ion is present, brackets are used before writing the subscript.",
     difficulty: "Medium",
-    topic: "Formulae of Ionic Compounds",
+    topic: "Writing Chemical Formulae",
   },
 
   {
@@ -700,7 +700,7 @@ export const mcqs: MCQQuestion[] = [
   {
   id: 47,
   question:
-    "Case Study:\nWhich of the following compounds contains the greatest total number of atoms in one formula unit?",
+    "Case Study:\nWhich of the following compounds contains the greatest total number of atoms represented by its chemical formula?",
   options: [
     "H₂O",
     "CO₂",
@@ -711,7 +711,7 @@ export const mcqs: MCQQuestion[] = [
   explanation:
     "H₂O has 3 atoms, CO₂ has 3 atoms, NH₃ has 4 atoms, and CaCO₃ has 5 atoms (1 Ca + 1 C + 3 O).",
   difficulty: "Hard",
-  topic: "Formulae of Ionic Compounds",
+  topic: "Writing Chemical Formulae",
 },
 
   {

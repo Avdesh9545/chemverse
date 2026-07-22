@@ -1,25 +1,20 @@
-// =============================================
-// Class IX
-// Chapter 3 - Atoms and Molecules
-// Topics
-// =============================================
-
 export const topics: string[] = [
+  "Introduction",
   "Laws of Chemical Combination",
   "Law of Conservation of Mass",
   "Law of Constant Proportions",
-  "Dalton's Atomic Theory",
   "What is an Atom?",
-  "Atomic Symbols",
+  "Modern Symbols of Atoms",
   "Atomic Mass",
   "What is a Molecule?",
-  "Molecular Mass",
+  "Molecules of Elements",
+  "Molecules of Compounds",
   "Ions",
   "Writing Chemical Formulae",
-  "Valency",
-  "Formulae of Ionic Compounds",
-  "Mole Concept",
+  "Molecular Mass",
+  "Formula Unit Mass",
+  "The Mole Concept",
   "Molar Mass",
-  "Numericals Based on Mole Concept",
+  "Numericals on Mole Concept",
   "Chapter Summary",
 ];

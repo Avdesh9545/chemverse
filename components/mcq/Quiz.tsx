@@ -10,6 +10,7 @@ import ReviewCard from "./ReviewCard";
 import FinishModal from "./FinishModal";
 import QuizNavigation from "./QuizNavigation";
 import useQuizStorage from "@/hooks/useQuizStorage";
+import { submitQuiz } from "@/hooks/useQuizSubmission";
 
 
 interface Question {
@@ -22,12 +23,14 @@ interface Question {
 
 interface QuizProps {
   title: string;
+  chapterSlug: string;
   questions: Question[];
   mode?: "practice" | "exam";
-}
+} 
 
 export default function Quiz({
   title,
+  chapterSlug,
   questions,
   mode = "practice",
 }: QuizProps) {
@@ -112,24 +115,35 @@ export default function Quiz({
 }
 
   function calculateResult() {
-    let correct = 0;
-    
-    questions.forEach((q, index) => {
-      if (selectedAnswers[index] === q.answer) correct++;
-    });
-   /* const timeTaken =
-  submittedAt === null
-    ? 0
-    : Math.round((submittedAt - startTime) / 1000);*/
+  let correct = 0;
 
-const attempted = Object.keys(selectedAnswers).length;
+  questions.forEach((q, index) => {
+    if (selectedAnswers[index] === q.answer) {
+      correct++;
+    }
+  });
 
-    return {
-      correct,
-      wrong: attempted - correct,
-      skipped: questions.length - attempted,
-    };
-  }
+  const attempted =
+    Object.keys(selectedAnswers).length;
+
+  const wrong = attempted - correct;
+
+  const skipped =
+    questions.length - attempted;
+
+  const score = Math.round(
+    (correct / questions.length) * 100
+  );
+
+  return {
+    score,
+    correct,
+    wrong,
+    skipped,
+    attempted,
+  };
+}
+ 
 
   if (quizFinished) {
     const result = calculateResult();
@@ -177,7 +191,7 @@ return (
         answered={answeredCount}
         total={questions.length}
         onCancel={() => setShowFinishModal(false)}
-        onSubmit={() => {
+        onSubmit={async () => {
   localStorage.removeItem(`quiz-${title}`);
   localStorage.removeItem(`timer-${title}`);
 
@@ -185,6 +199,25 @@ return (
 
   setSubmittedAt(submitted);
   setShowFinishModal(false);
+  const result = calculateResult();
+
+try {
+  await submitQuiz({
+    chapterSlug,
+    score: result.score,
+    correct: result.correct,
+    wrong: result.wrong,
+    timeTaken: Math.round(
+      (submitted - startTime) / 1000
+    ),
+  });
+} catch (error) {
+  console.error(error);
+
+  alert("Unable to save quiz progress.");
+
+  return;
+}
 
   if (isExam) {
     let correct = 0;

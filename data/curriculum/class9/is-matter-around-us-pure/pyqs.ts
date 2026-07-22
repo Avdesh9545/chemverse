@@ -59,7 +59,7 @@ export const pyqs: PYQQuestion[] = [
       "Name the method used to separate cream from milk. State the principle involved.",
     solution:
       "The method is centrifugation. It works on the difference in densities of the components. Rapid spinning causes the denser particles to move outward while the lighter cream separates.",
-    topic: "Separation by Centrifugation",
+    topic: "Centrifugation",
   },
 
   {
@@ -70,7 +70,7 @@ export const pyqs: PYQQuestion[] = [
       "Explain how a separating funnel is used to separate a mixture of oil and water.",
     solution:
       "The mixture is poured into a separating funnel and allowed to stand. Since oil and water are immiscible, two separate layers are formed. The lower water layer is drained first through the tap, followed by the oil layer.",
-    topic: "Separation by Separating Funnel",
+    topic: "Separating Funnel",
   },
 
   {
@@ -179,7 +179,7 @@ export const pyqs: PYQQuestion[] = [
       "A student prepares a mixture of sand, common salt and water. Suggest a sequence of separation methods to obtain dry common salt.",
     solution:
       "First filter the mixture to separate the sand. The filtrate contains salt solution. Then evaporate the water to obtain dry common salt.",
-    topic: "Separating Components of Mixtures",
+    topic: "Methods of Separation",
   },
 
   {
@@ -190,7 +190,7 @@ export const pyqs: PYQQuestion[] = [
       "A laboratory assistant accidentally mixes kerosene with water. Which apparatus should be used to separate the mixture? Give the reason.",
     solution:
       "A separating funnel should be used because kerosene and water are immiscible liquids with different densities and form separate layers.",
-    topic: "Separation by Separating Funnel",
+    topic: "Separating Funnel",
   },
 
   {
@@ -277,7 +277,7 @@ export const pyqs: PYQQuestion[] = [
       "Differentiate between filtration and distillation.",
     solution:
       "Filtration separates an insoluble solid from a liquid using a filter paper. Distillation separates substances based on differences in boiling points and also allows recovery of the solvent.",
-    topic: "Separating Components of Mixtures",
+    topic: "Methods of Separation",
   },
 
   {
@@ -352,8 +352,8 @@ export const pyqs: PYQQuestion[] = [
     question:
       "A student wants to obtain pure copper sulphate crystals from an aqueous solution of copper sulphate. Which separation method should be used? Explain the steps involved.",
     solution:
-      "The solution should first be heated to evaporate some of the water. It is then allowed to cool slowly so that pure copper sulphate crystals separate out. Finally, the crystals are filtered and dried. This method is known as crystallisation.",
-    topic: "Separation by Evaporation",
+      "The solution should first be heated to evaporate some of the water. It is then allowed to cool slowly so that pure copper sulphate crystals separate out. Finally, the crystals are filtered and dried. This method is called crystallisation, in which the solution is concentrated by evaporation and then cooled slowly to obtain pure crystals.",
+    topic: "Evaporation",
   },
 
   {
@@ -364,7 +364,7 @@ export const pyqs: PYQQuestion[] = [
       "A mixture contains iron filings, sand and common salt. Describe a suitable sequence of methods to separate all three components.",
     solution:
       "First, remove the iron filings using a magnet. Next, add water to dissolve the common salt. Filter the mixture to separate the sand. Finally, evaporate the filtrate to obtain common salt.",
-    topic: "Separating Components of Mixtures",
+    topic: "Methods of Separation",
   },
 
   {
@@ -386,6 +386,6 @@ export const pyqs: PYQQuestion[] = [
       "A laboratory assistant accidentally mixes kerosene, water and sand in a beaker. Describe the sequence of separation techniques that should be used to separate all three components.",
     solution:
       "First, filter the mixture to remove the sand. Then transfer the filtrate to a separating funnel. Allow the kerosene and water to form two layers and separate them by opening the stopcock to collect the lower water layer first, followed by the kerosene layer.",
-    topic: "Separating Components of Mixtures",
+    topic: "Methods of Separation",
   },
 ];

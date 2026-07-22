@@ -188,7 +188,7 @@ export const mcqs: MCQQuestion[] = [
     ],
     answer: 1,
     explanation:
-      "The L shell (n = 2) can accommodate a maximum of 8 electrons in Class 9 chemistry.",
+      "According to the 2n² rule, the L shell can accommodate a maximum of 8 electrons.",
     difficulty: "Easy",
     topic: "Electronic Configuration",
   },
@@ -374,7 +374,7 @@ export const mcqs: MCQQuestion[] = [
     ],
     answer: 1,
     explanation:
-      "Electronic configuration of Mg is 2,8,2. It loses two electrons, so its valency is 2.",
+      "Magnesium has electronic configuration 2,8,2. It loses two electrons to attain a stable configuration. Therefore, its valency is 2.",
     difficulty: "Medium",
     topic: "Valency",
   },
@@ -848,7 +848,7 @@ export const mcqs: MCQQuestion[] = [
     ],
     answer: 0,
     explanation:
-      "This statement combines the major concepts covered in the chapter and reflects the modern understanding expected at the Class 9 level.",
+      "This chapter explains the internal structure of atoms through the discovery of subatomic particles, atomic models, electronic configuration and concepts such as atomic number, mass number, isotopes and isobars.",
     difficulty: "Medium",
     topic: "Chapter Summary",
   },

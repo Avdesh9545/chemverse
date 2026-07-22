@@ -53,10 +53,11 @@ export default async function AssessmentSessionPage({
 
       <div className="mt-8">
   <Quiz
-    title={`${chapter.metadata.title} Assessment`}
-    questions={assessmentQuestions}
-    mode="exam"
-  />
+  title={`${chapter.metadata.title} Assessment`}
+  chapterSlug={slug}
+  questions={assessmentQuestions}
+  mode="exam"
+/>
 </div>
     </main>
   );

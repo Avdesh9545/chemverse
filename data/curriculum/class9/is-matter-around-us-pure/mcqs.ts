@@ -243,7 +243,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Water evaporates on heating, leaving behind dissolved common salt.",
     difficulty: "Easy",
-    topic: "Separation by Evaporation",
+    topic: "Evaporation",
   },
 
   {
@@ -259,7 +259,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Centrifugation separates components based on differences in density by rapid spinning.",
     difficulty: "Easy",
-    topic: "Separation by Centrifugation",
+    topic: "Centrifugation",
   },
 
   {
@@ -275,7 +275,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Immiscible liquids such as oil and water form separate layers and can be separated using a separating funnel.",
     difficulty: "Easy",
-    topic: "Separation by Separating Funnel",
+    topic: "Separating Funnel",
   },
 
   {
@@ -291,7 +291,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Ammonium chloride sublimes on heating whereas common salt does not.",
     difficulty: "Medium",
-    topic: "Separation by Sublimation",
+    topic: "Sublimation",
   },
 
   {
@@ -474,7 +474,7 @@ export const mcqs: MCQQuestion[] = [
     explanation:
       "Chromatography is widely used to separate pigments, dyes and coloured components.",
     difficulty: "Medium",
-    topic: "Separating Components of Mixtures",
+    topic: "Methods of Separation",
   },
 
   {
@@ -708,7 +708,7 @@ export const mcqs: MCQQuestion[] = [
     ],
     answer: 0,
     explanation:
-      "Water boils and vaporises before salt. The vapour is condensed to obtain pure water.",
+      "Water has a much lower boiling point than salt.Therefore water vaporises first and is condensed to obtain pure water.",
     difficulty: "Medium",
     topic: "Distillation",
   },

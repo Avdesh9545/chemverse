@@ -138,6 +138,14 @@ Solute + Solvent
 • Particles cannot be seen with naked eyes.
 • No scattering of light occurs.
 
+# Did You Know?
+
+Sea water is one of the most common natural solutions because it contains salts dissolved in water.
+
+# Common Mistake
+
+Students often think every transparent liquid is a pure substance. Salt solution is transparent but it is still a mixture.
+
 # Exam Tip
 
 Remember:
@@ -281,6 +289,10 @@ Milk appears uniform but is actually a colloidal solution consisting of tiny fat
 • Stable mixture
 • Scatters light
 • Cannot be filtered by ordinary filter paper
+
+# Did You Know?
+
+Milk appears uniform to our eyes, but under a microscope it contains tiny fat droplets dispersed in water.
 
 # Exam Tip
 
@@ -426,7 +438,7 @@ Filtrate → Passes through filter paper
   },
     {
     id: "evaporation",
-    title: "10. Separation by Evaporation",
+    title: "10. Evaporation",
     content: `
 # Definition
 
@@ -469,7 +481,7 @@ Evaporation is not suitable if both the solute and solvent are valuable.
 
   {
     id: "centrifugation",
-    title: "11. Separation by Centrifugation",
+    title: "11. Centrifugation",
     content: `
 # Definition
 
@@ -504,7 +516,7 @@ Remember: Centrifugation works on density difference.
 
   {
     id: "separating-funnel",
-    title: "12. Separation by Separating Funnel",
+    title: "12. Separating Funnel",
     content: `
 # Definition
 
@@ -723,6 +735,10 @@ Physical Change
 Chemical Change
 • New substance formed.
 • Usually irreversible.
+
+# Common Mistake
+
+Breaking glass is a physical change even though it cannot be reversed. Irreversibility alone does not make a change chemical.
 
 # Exam Tip
 

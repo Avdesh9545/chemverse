@@ -65,10 +65,11 @@ export default async function MCQsPage({
 
       <div className="mt-8">
         <Quiz
-          title={chapter.metadata.title}
-          questions={chapter.mcqs}
-          mode={quizMode}
-        />
+  title={chapter.metadata.title}
+  chapterSlug={chapter.metadata.slug}
+  questions={chapter.mcqs}
+  mode={quizMode}
+/>
       </div>
     </main>
   );
